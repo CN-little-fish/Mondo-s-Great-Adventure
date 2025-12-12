@@ -1597,7 +1597,8 @@
             <!-- 新增的两个按钮 -->
             <div class="history-actions">
                 <button class="history-btn history-export-btn" onclick="exportHistoryAsImage()">导出图片</button>
-                <button class="history-btn history-clear-btn" onclick="clearHistory()" style="margin-left: 150px;">清空记录</button>
+                <button class="history-btn history-clear-btn" onclick="clearHistory()"
+                    style="margin-left: 150px;">清空记录</button>
             </div>
 
             <!-- 关闭按钮保留 -->
@@ -2370,6 +2371,7 @@
             // 清空页面显示
             const historyList = document.getElementById('historyList');
             historyList.innerHTML = '<div class="history-empty">暂无历史记录<br>开始你的冒险之旅吧！</div>';
+            updateGoldCountDisplay();
 
             alert("历史记录已清空！");
         }
@@ -2416,6 +2418,24 @@
             });
             container.appendChild(title);
 
+
+            // ✅ 新增：显示当前小金数量
+            const goldInfo = document.createElement('p');
+            goldInfo.textContent = `当前小金: ${goldCount}`;
+            Object.assign(goldInfo.style, {
+                textAlign: 'center',
+                margin: '8px 0 16px 0',
+                color: '#d39e00',
+                fontWeight: 'bold',
+                fontSize: '16px',
+                backgroundColor: '#fff8e1',
+                padding: '6px',
+                borderRadius: '4px',
+                border: '1px solid #ffeaa7'
+            });
+            container.appendChild(goldInfo);
+
+            
             // 遍历数据
             spinHistory.forEach(item => {
                 const itemDiv = document.createElement('div');
@@ -2464,6 +2484,10 @@
         // 如果有历史记录，则立即渲染
         if (spinHistory.length > 0) {
             renderHistory();
+        }
+
+        if (localStorage.getItem('goldCount')) {
+            goldCount = parseInt(localStorage.getItem('goldCount')) || 0;
         }
 
         // 初始化小金数量显示
