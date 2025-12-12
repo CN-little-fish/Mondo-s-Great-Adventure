@@ -1798,6 +1798,7 @@
 
         // 更新小金数量显示
         function updateGoldCountDisplay() {
+            localStorage.setItem('goldCount', JSON.stringify(goldCount));
             document.getElementById('counterDisplay').textContent = goldCount;
             document.getElementById('goldInput').value = goldCount;
         }
@@ -2360,9 +2361,11 @@
 
             // 清空内存中的数组
             spinHistory = [];
+            goldCount = 0;
 
             // 清除 localStorage
             localStorage.removeItem('spinHistory');
+            localStorage.removeItem('goldCount');
 
             // 清空页面显示
             const historyList = document.getElementById('historyList');
@@ -2452,13 +2455,10 @@
             }
         }
 
-        // 初始化小金数量显示
-        updateGoldCountDisplay();
-
-
         // 加载本地存储的历史记录
         if (localStorage.getItem('spinHistory')) {
             spinHistory = JSON.parse(localStorage.getItem('spinHistory'));
+            goldCount = parseInt(localStorage.getItem('goldCount')) || 0;
         }
 
         // 如果有历史记录，则立即渲染
@@ -2466,7 +2466,8 @@
             renderHistory();
         }
 
-
+        // 初始化小金数量显示
+        updateGoldCountDisplay();
 
         // —— 新增选择题处理 ——
         function handleSatisfyJiaopi(option) {
