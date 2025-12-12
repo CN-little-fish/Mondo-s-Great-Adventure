@@ -1656,7 +1656,7 @@
         </div>
     </div>
 
-    <script src="http://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 
     <script>
         // 52个事件选项
@@ -2379,6 +2379,12 @@
 
         // 导出为图片（需引入 html2canvas）
         async function exportHistoryAsImage() {
+            if (typeof html2canvas !== 'function') {
+                alert('导出功能未加载，请刷新页面或检查网络');
+                console.error('html2canvas 库未加载！');
+                return;
+            }
+            
             // 空值或非数组判断
             if (!Array.isArray(spinHistory) || spinHistory.length === 0) {
                 alert('暂无历史记录可导出');
@@ -2435,7 +2441,7 @@
             });
             container.appendChild(goldInfo);
 
-            
+
             // 遍历数据
             spinHistory.forEach(item => {
                 const itemDiv = document.createElement('div');
